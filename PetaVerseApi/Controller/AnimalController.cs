@@ -50,11 +50,19 @@ namespace PetaVerseApi.Controller
         }
 
 
+<<<<<<< Updated upstream
         [HttpGet("{animalId}")]
         public async Task<IActionResult> GetById(int animalId, CancellationToken cancellationToken = default)
         {
             var animal = await _animalRepository.FindByIdAsync(animalId, cancellationToken);
             return animal != null ? Ok(_mapper.Map<AnimalDTO>(animal)) : NotFound("Unable to find the requested animal"); 
+=======
+        [HttpGet("{AnimalId}")]
+        public async Task<IActionResult> GetById(int AnimalId, CancellationToken cancellationToken = default)
+        {
+            var animals = await _animalRepository.FindByIdAsync(AnimalId, cancellationToken);
+            return animals != null ? Ok(_mapper.Map<AnimalDTO>(animals)) : NotFound("Unable to find the requested animal"); 
+>>>>>>> Stashed changes
         }
 
 

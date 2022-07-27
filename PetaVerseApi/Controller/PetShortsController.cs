@@ -27,28 +27,28 @@ namespace PetaVerseApi.Controller
         [HttpGet]
         public async Task<IActionResult> GetAll(CancellationToken cancellationToken = default)
         {
-            var breed = await _petShortsRepository.FindAll().ToListAsync(cancellationToken);
-            return Ok(_mapper.Map<IEnumerable<PetShortsDTO>>(breed));
+            var petShort = await _petShortsRepository.FindAll().ToListAsync(cancellationToken);
+            return Ok(_mapper.Map<IEnumerable<PetShortsDTO>>(petShort));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PetShortsDTO dto, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create([FromBody] PetShortsDTO dto, CancellationToken cancellationToken = default)
         {
-            var petShorts = _mapper.Map<PetShorts>(dto);
-            _petShortsRepository.Add(petShorts);
+            var petShort = _mapper.Map<PetShorts>(dto);
+            _petShortsRepository.Add(petShort);
 
             await _petShortsRepository.SaveChangesAsync(cancellationToken);
-            return Ok(_mapper.Map<PetShortsDTO>(petShorts));
+            return Ok(_mapper.Map<PetShortsDTO>(petShort));
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] PetShortsDTO dto, CancellationToken cancellationToken = default)
         {
-            var petShorts = await _petShortsRepository.FindByIdAsync(dto.Id, cancellationToken);
-            if (petShorts is null)
+            var petShort = await _petShortsRepository.FindByIdAsync(dto.Id, cancellationToken);
+            if (petShort is null)
                 return NotFound();
 
-            _mapper.Map(dto, petShorts);
+            _mapper.Map(dto, petShort);
             await _petShortsRepository.SaveChangesAsync(cancellationToken);
             return NoContent();
         }
@@ -56,11 +56,11 @@ namespace PetaVerseApi.Controller
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken = default)
         {
-            var petShorts = await _petShortsRepository.FindByIdAsync(id, cancellationToken);
-            if (petShorts is null)
+            var petShort = await _petShortsRepository.FindByIdAsync(id, cancellationToken);
+            if (petShort is null)
                 return NotFound();
 
-            _petShortsRepository.Delete(petShorts);
+            _petShortsRepository.Delete(petShort);
             await _petShortsRepository.SaveChangesAsync(cancellationToken);
             return NoContent();
         }

@@ -11,12 +11,12 @@ namespace PetaVerseApi.Repository
     {
         public AnimalRepository(ApplicationDbContext context) : base(context) { }
 
+        public override IQueryable<Animal> FindAll(Expression<Func<Animal, bool>>? predicate = null)
+    => _dbSet.WhereIf(predicate != null, predicate!)
+             .Include(a => a.AnimalPetaverseMedias);
+
         public override async Task<Animal?> FindByIdAsync(int id, CancellationToken cancellationToken = default)
             => await FindAll(b => b.Id == id)
                     .FirstOrDefaultAsync(cancellationToken);
-
-        //public override IQueryable<Animal> FindAll(Expression<Func<Animal, bool>>? predicate = null)
-        //    => _dbSet.WhereIf(predicate != null, predicate!)
-        //             .Include(b => b.Species);
     }
 }
